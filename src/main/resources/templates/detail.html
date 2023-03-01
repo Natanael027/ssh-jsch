@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+    <title> Detail </title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}" ></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" ></script>
+
+</head>
+<body>
+<div class="back">
+    <a href="/home">Go Back</a>
+</div>
+<div class="title" th:with="dt=${#strings.substring(date, 5, #strings.length(date))}">
+<!--    <span th:text="${'Tbl :: '+date}"></span>-->
+
+    <span th:if="${dt=='01'}">Januari</span>
+    <span th:if="${dt=='02'}">Febuari</span>
+    <span th:if="${dt=='03'}">Maret</span>
+    <span th:if="${dt=='04'}">April</span>
+    <span th:if="${dt=='05'}">Mei</span>
+    <span th:if="${dt=='06'}">Juni</span>
+    <span th:if="${dt=='07'}">Juli</span>
+    <span th:if="${dt=='08'}">Agustus</span>
+    <span th:if="${dt=='09'}">September</span>
+    <span th:if="${dt=='10'}">Oktober</span>
+    <span th:if="${dt=='11'}">November</span>
+    <span th:if="${dt=='12'}">Desember</span>
+
+    <span th:text="${#strings.substring(date, 0, #strings.length(date)-3)}"></span>
+</div>
+
+<div class="excel">
+    <a th:href="@{${'/report/export/excel/'+date}}" >Export to Excel</a>
+</div>
+
+<div class="details">
+    <table class="table table-bordered table-hover table-striped table-responsive-xL">
+            <thead class ="thead-dark">
+
+            <tr>
+                <th width="8%">
+                    Sent Status
+                </th>
+                <th th:each="hh : ${listDetailDate}">
+                    <span th:text="${hh}"> </span>
+                </th>
+            </tr>
+            </thead>
+
+            <tbody th:with="count=0">
+            <tr th:each="hh : ${listDetailStatus}">
+                <td th:text="${hh}"></td>
+
+                    <p th:each="date : ${listDetailDate2}" >
+
+                    <td th:with="key=${date+'#'+hh}">
+                        <!--                        <span th:text="${key}"> true </span>-->
+                        <!--                        <span th:text="${counts}"> true </span>-->
+                        <!--                        <span th:if="${date+hh == counts.keySet()}">True</span>-->
+                        <span th:if="${counts.get(key)<300}" th:text="${counts.get(key)}" class="text-danger"> hey </span>
+                        <span th:if="${counts.get(key)==null}" th:text="${counts.get(key)}">  </span>
+                        <span th:if="${counts.get(key)>300}" th:text="${counts.get(key)}" class="tgl"></span>
+                    </td>
+                    </p>
+            </tr>
+            </tbody>
+       </table>
+</div>
+</body>
+</html>

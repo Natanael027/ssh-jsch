@@ -1,0 +1,44 @@
+#!/bin/bash
+mkdir waAgentGithub
+ cd waAgentGithub
+ git init
+ git remote add origin https://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:x-oauth-basic@github.com/AzharWorker/waAgentGithub.git
+ git fetch --tags
+ git reset --hard tags/v1.1.0
+ pwd
+
+
+pwd
+exit
+app@workerdev:~$ #!/bin/bash
+app@workerdev:~$ mkdir waAgentGithub
+mkdir: cannot create directory ‘waAgentGithub’: File exists
+app@workerdev:~$  cd waAgentGithub
+app@workerdev:~/waAgentGithub$  git init
+Reinitialized existing Git repository in /home/app/waAgentGithub/.git/
+app@workerdev:~/waAgentGithub$  git remote add origin https://ghp_Hpf7MIOFcrlbb4iicEohjd4RWHXboC61sz50w:x-oauth-basic@github.com/AzharWorker/waAgentGithub.git
+fatal: remote origin already exists.
+app@workerdev:~/waAgentGithub$  git fetch --tags
+app@workerdev:~/waAgentGithub$  git reset --hard tags/v1.1.0
+HEAD is now at 5fb81e2 first commit
+app@workerdev:~/waAgentGithub$  pwd
+/home/app/waAgentGithub
+app@workerdev:~/waAgentGithub$ 
+app@workerdev:~/waAgentGithub$ 
+app@workerdev:~/waAgentGithub$ pwd
+/home/app/waAgentGithub
+app@workerdev:~/waAgentGithub$ exit
+logout
+exit-status: 0qwertywagwbc2
+[sudo] password for app: 
+exit-status: 0
+
+
+SUDO COMMAND
+qwertywagwbc2
+
+
+SUDO COMMAND
+[sudo] password for app: 
+mkdir: cannot create directory ‘tesSudo2’: File exists
+exit-status: 0

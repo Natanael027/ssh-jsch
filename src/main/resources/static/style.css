@@ -1,0 +1,41 @@
+*.icon-white {color : white}
+*.icon-silver {color : silver}
+*.icon-green {color : green}
+*.icon-dark {color : gray}
+*.icon-red {color : red}
+
+.back{
+        margin: 15px;
+        margin-bottom: 5px;
+}
+
+.title{
+        text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+}
+.excel{
+        text-align: right;
+        font-size: 14px;
+        margin-right: 20px;
+}
+
+.header{
+    text-align: center;
+}
+
+.tgl{
+    text-align: right;
+}
+
+.details th{
+    text-align: center;
+}
+
+.details td{
+    text-align: right;
+}
+
+.logout{
+     text-align: right;
+}
