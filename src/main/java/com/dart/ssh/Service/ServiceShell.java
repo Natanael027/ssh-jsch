@@ -19,19 +19,42 @@ import java.util.Properties;
 //@Async
 public class ServiceShell {
     public Session session;
+    public Session session2;
     public ChannelShell channel;
     public ChannelExec channel2;
     public String password;
     public String username;
     public String hostname;
     public Integer port;
+
+    public ServiceShell(String username, String hostname, String password, Integer port) {
+        this.username = username;
+        this.password = password;
+        this.hostname = hostname;
+        this.port = port;
+    }
+
+    public ServiceShell() {
+    }
+
     public String finalResult;
+
+    // The host of the second target
+    public String tunnelRemoteHost;
+    public String secondPassword;
 
     public Session getSession(){
         if(session == null || !session.isConnected()){
             session = connect(hostname,username,password, port);
         }
         return session;
+    }
+
+    public Session getSession2(){
+        if(session2 == null || !session2.isConnected()){
+            session2 = connectForwarding(hostname,username,password,port, tunnelRemoteHost,secondPassword);
+        }
+        return session2;
     }
 
     public Channel getChannel(){
@@ -49,20 +72,17 @@ public class ServiceShell {
         return channel;
     }
 
-    public Channel getChannelExec(){
-        if(channel == null || !channel.isConnected()){
+    public Channel getChannelForwarding(){
+//        if(channel == null || !channel.isConnected()){
             try{
-//                channel = (ChannelShell)getSession().openChannel("exec");
-                 channel2 = (ChannelExec) getSession().openChannel("exec");
+                 channel2 = (ChannelExec) getSession2().openChannel("shell");
                  channel2.setPty(true);
-
-//                channel = (ChannelShell)getSession();
+                 channel2.setInputStream(null);
                 channel2.connect();
 
             }catch(Exception e){
                 System.out.println("Error while opening channel: "+ e);
             }
-        }
         return channel2;
     }
 
@@ -77,11 +97,42 @@ public class ServiceShell {
 
             System.out.println("Connecting SSH to " + hostname + " - Please wait for few seconds... ");
             session.connect();
+
             System.out.println("Connected!");
         }catch(Exception e){
             System.out.println("An error occurred while connecting to "+hostname+": "+e);
         }
         return session;
+    }
+
+    private Session connectForwarding(String hostname, String username, String password, Integer port, String tunnelRemoteHost, String secondPassword){
+        JSch jSch = new JSch();
+        try {
+            session = jSch.getSession(username, hostname, port);
+            Properties config = new Properties();
+            config.put("StrictHostKeyChecking", "no");
+            session.setConfig(config);
+            session.setPassword(password);
+            localUserInfo lui=new localUserInfo();
+            session.setUserInfo(lui);
+            session.setPortForwardingL(2233, tunnelRemoteHost, 22);
+
+            System.out.println("Connecting SSH to " + hostname + " - Please wait for few seconds... ");
+            session.connect();
+            session.openChannel("direct-tcpip");
+           
+            // create a session connected to port 2233 on the local host.
+            session2 = jSch.getSession(username, "localhost", 2233);
+            session2.setPassword(secondPassword);
+            session2.setUserInfo(lui);
+            session2.setConfig("StrictHostKeyChecking", "no");
+
+            session2.connect(); // now we're connected to the secondary system
+            System.out.println("Connected!");
+        }catch(Exception e){
+            System.out.println("An error occurred while connecting to "+hostname+": "+e);
+        }
+        return session2;
     }
 
     public String executeCommands(List<String> commands){
@@ -144,6 +195,47 @@ public class ServiceShell {
 
         try {
             Channel channel = getSession().openChannel("exec");
+            FileWriter myWriter = new FileWriter("File/filename_"+id+".txt", true);
+            System.out.println("sudo event.conf command ");
+//            ((ChannelExec) channel).setCommand("sudo -S -p ''" + "");
+            ((ChannelExec) channel).setCommand("sudo -S -p '' mv event.conf /etc/nginx/sites-enabled/");
+            channel.setInputStream(null);
+            OutputStream out = channel.getOutputStream();
+            ((ChannelExec) channel).setErrStream(System.err);
+            InputStream in = channel.getInputStream();
+            ((ChannelExec) channel).setPty(true);
+            channel.connect();
+            out.write((password + "\n").getBytes());
+            out.flush();
+            byte[] tmp = new byte[1024];
+            while (true) {
+                while (in.available() > 0) {
+                    int i = in.read(tmp, 0, 1024);
+                    if (i < 0) break;
+                    String line = (new String(tmp, 0, i));
+                    finalResult = line;
+                    System.out.println(line);
+//                        return line;
+                    myWriter.write(line);
+                    Thread.sleep(500);
+                }
+                if (channel.isClosed()) {
+                    System.out.println("Exit status: " + channel.getExitStatus()+"\n");
+                    myWriter.write("exit-status: "+channel.getExitStatus()+"\n");
+                    break;
+                }
+            }
+            myWriter.close();
+            System.out.println("SUDO event.conf DONE");
+        } catch (JSchException | IOException e) {
+            e.printStackTrace();
+        }
+        return finalResult;
+    }
+   public String sudoCommandFileForwarding(Long id) throws IOException, InterruptedException {
+
+        try {
+            Channel channel = getSession2().openChannel("exec");
             FileWriter myWriter = new FileWriter("File/filename_"+id+".txt", true);
             System.out.println("sudo event.conf command ");
 //            ((ChannelExec) channel).setCommand("sudo -S -p ''" + "");
@@ -330,14 +422,17 @@ public class ServiceShell {
 //            PrintStream out = new PrintStream(channel.getOutputStream());
             OutputStream out = channel.getOutputStream();
 
+            /*
+                testing
             out.write(("#!/bin/bash" + "\n").getBytes());
             out.write(("ssh pi@192.168.1.191" + "\n").getBytes());
-/*
+            */
+
             for(String command : commands){
                 out.write((command + "\n").getBytes());
             }
-*/
-            out.write(("pwd" + "\n").getBytes());
+
+//            out.write(("pwd" + "\n").getBytes());
             out.write(("exit"+ "\n").getBytes());
             out.flush();
         }catch(Exception e){
@@ -358,7 +453,8 @@ public class ServiceShell {
                     finalResult = line;
                     //off
                     log.info(line);
-
+/*
+                    //Testing
                     if (finalResult.contains("password:")){
                         out.write(("raspberry" + "\n").getBytes());
                         out.flush();
@@ -368,6 +464,7 @@ public class ServiceShell {
 //						out.write(("ls -ltr" + "\n").getBytes());
 //						out.flush();
                     }
+*/
 
                     if (line.equalsIgnoreCase("\u001B")){
                         myWriter.write("");
@@ -396,14 +493,12 @@ public class ServiceShell {
         return finalResult;
     }
 
-
-    public String putFile(String localFile, String remoteDirFile){
+    public String putFile2(String localFile, String remoteDirFile, Channel sftp){
         try{
-
-            Channel sftp  = getSession().openChannel("sftp");
+            System.out.println("Putting file");
+//            Channel sftp  = getSession().openChannel("sftp");
             // 2 seconds timeout
             sftp.connect(2000);
-
             ChannelSftp channelSftp = (ChannelSftp) sftp;
 /*
             channelSftp.chmod(Integer.parseInt("777",8), "/etc/nginx/sites-enabled/event.conf.save");
@@ -418,6 +513,26 @@ public class ServiceShell {
 //            channelSftp.get(remoteFile, localDir + "here.txt");
 
             channelSftp.exit();
+            System.out.println("Done");
+            return "DONE";
+        }catch (Exception e){
+            return e.toString();
+        }
+    }
+    public String putFile(String localFile, String remoteDirFile){
+        try{
+            System.out.println("Putting file");
+            Channel sftp  = getSession().openChannel("sftp");
+            // 2 seconds timeout
+            sftp.connect(2000);
+
+            ChannelSftp channelSftp = (ChannelSftp) sftp;
+
+            // transfer file from local to remote server
+            channelSftp.put(localFile, remoteDirFile);
+
+            channelSftp.exit();
+            System.out.println("Done");
             return "DONE";
         }catch (Exception e){
             return e.toString();
@@ -444,7 +559,7 @@ public class ServiceShell {
         }
 
     }
-  public String getFile(String remoteFile, String localDirFile){
+    public String getFile(String remoteFile, String localDirFile){
         try{
             Channel sftp  = getSession().openChannel("sftp");
             // 2 seconds timeout
@@ -551,4 +666,14 @@ public class ServiceShell {
         executeCommands(commands);
         close();
     }
+}
+
+class localUserInfo implements UserInfo{
+    String passwd;
+    public String getPassword(){ return passwd; }
+    public boolean promptYesNo(String str){return true;}
+    public String getPassphrase(){ return null; }
+    public boolean promptPassphrase(String message){return true; }
+    public boolean promptPassword(String message){return true;}
+    public void showMessage(String message){}
 }

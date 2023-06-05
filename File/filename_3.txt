@@ -1,72 +1,9 @@
-
- * Canonical Livepatch is available for installation.
-   - Reduce system reboots and improve kernel security. Activate at:
-     https://ubuntu.com/livepatch
-
-93 packages can be updated.
-1 update is a security update.
-
-New release '20.04.5 LTS' available.
-Run 'do-release-upgrade' to upgrade to it.
-
-
-*** System restart required ***
-Last login: Tue Feb 28 16:15:16 2023 from 192.168.1.96
-#!/bin/bash
-ssh pi@192.168.1.191
+ls -ltr
+whatsappWorker nano
 pwd
 exit
-app@workerdev:~$ #!/bin/bash
-app@workerdev:~$ ssh pi@192.168.1.191
-pi@192.168.1.191's password: 
-Linux raspberrypi 5.15.84-v7l+ #1613 SMP Thu Jan 5 12:01:26 GMT 2023 armv7l
-
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
-
-Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
-permitted by applicable law.
-Last login: Tue Feb 28 16:15:17 2023 from 192.168.1.244
-
-SSH is enabled and the default password for the 'pi' user has not been changed.
-This is a security risk - please login as the 'pi' user and type 'passwd' to set a new password.
-
-[?2004hpi@raspberrypi:~$ #!/bin/bash
-[?2004l[?2004hpi@raspberrypi:~$ 
-[?2004l[?2004hpi@raspberrypi:~$ ls -ltr
-[?2004ltotal 188
--rw-r--r-- 1 pi   pi   25166 Feb 15  2014 [0m[01;31mpywapi-0.3.8.tar.gz[0m
--rw-r--r-- 1 pi   pi   89736 Oct 17  2020 [01;31mFAQ7BWLI1NULEIL.zip[0m
-drwxr-xr-x 2 pi   pi    4096 Sep 22 07:14 [01;34mBookshelf[0m
-drwxr-xr-x 2 pi   pi    4096 Dec  2 17:39 [01;34mVideos[0m
-drwxr-xr-x 2 pi   pi    4096 Dec  2 17:39 [01;34mTemplates[0m
-drwxr-xr-x 2 pi   pi    4096 Dec  2 17:39 [01;34mPublic[0m
-drwxr-xr-x 2 pi   pi    4096 Dec  2 17:39 [01;34mPictures[0m
-drwxr-xr-x 2 pi   pi    4096 Dec  2 17:39 [01;34mMusic[0m
-drwxr-xr-x 2 pi   pi    4096 Dec  2 17:39 [01;34mDownloads[0m
-drwxr-xr-x 2 pi   pi    4096 Dec  2 17:39 [01;34mDocuments[0m
-drwxr-xr-x 2 pi   pi    4096 Dec 16 10:58 [01;34mmolting_crab[0m
-drwxr-xr-x 2 pi   pi    4096 Jan 10 17:49 [01;34mDC[0m
-drwxr-xr-x 2 pi   pi    4096 Jan 12 14:25 [01;34mDesktop[0m
-drwxrwxr-x 5 pi   pi    4096 Feb  1 14:32 [01;34mpywapi-0.3.8[0m
-drwxr-xr-x 3 root root  4096 Feb  1 15:36 [01;34mWeather[0m
--rw-r--r-- 1 pi   pi    3217 Feb  2 09:51 chatbotserver.py
--rw-r--r-- 1 pi   pi      16 Feb  2 09:54 newdata.txt
-drwxr-xr-x 5 pi   pi    4096 Feb 28 15:44 [01;34mwhatsappWorker[0m
-drwxr-xr-x 5 pi   pi    4096 Feb 28 15:44 [01;34mwaAgentGithub[0m
-drwxr-xr-x 2 pi   pi    4096 Feb 28 16:15 [01;34mtes[0m
-[?2004hpi@raspberrypi:~$ 
-[?2004l[?2004hpi@raspberrypi:~$ whatsappWorker nano
-[?2004l-bash: whatsappWorker: command not found
-[?2004hpi@raspberrypi:~$ 
-[?2004l[?2004hpi@raspberrypi:~$ exit
-[?2004llogout
-Connection to 192.168.1.191 closed.
-app@workerdev:~$ #!/bin/bash
-app@workerdev:~$ 
 app@workerdev:~$ ls -ltr
-total 32
+total 48
 drwxrwxr-x 3 app  app  4096 Dec 23 17:58 [0m[01;34mjava[0m
 drwxrwxr-x 2 app  app  4096 Dec 26 11:06 [01;34mtmp[0m
 lrwxrwxrwx 1 root root   45 Feb 10 10:17 [01;36mpm2[0m -> [01;32m/home/app/.nvm/versions/node/v16.19.0/bin/pm2[0m
@@ -76,14 +13,18 @@ drwxrwxr-x 2 app  app  4096 Feb 23 11:44 [01;34mtempConf[0m
 -rw-r--r-- 1 root root    0 Feb 28 11:25 sudo.txt
 drwxr-xr-x 2 root root 4096 Feb 28 14:04 [01;34mtesSudo2[0m
 -rw-r--r-- 1 root root    0 Feb 28 14:04 tes.txt
-drwxrwxr-x 2 app  app  4096 Feb 28 15:52 [01;34moutput[0m
 drwxrwxr-x 2 app  app  4096 Feb 28 16:15 [01;34mtes[0m
-app@workerdev:~$ 
+drwxrwxr-x 5 app  app  4096 Feb 28 16:23 [01;34mwhatsappWorker[0m
+drwxrwxr-x 5 app  app  4096 Feb 28 16:23 [01;34mwaAgentGithub[0m
+drwxrwxr-x 2 app  app  4096 Feb 28 16:23 [01;34moutput[0m
+-rw-rw-r-- 1 app  app  3136 Mar  1 16:00 test.txt
+drwxrwxr-x 2 app  app  4096 Mar  1 16:11 [01;34mtesSudoPut[0m
 app@workerdev:~$ whatsappWorker nano
 whatsappWorker: command not found
-app@workerdev:~$ 
+app@workerdev:~$ pwd
+/home/app
 app@workerdev:~$ exit
 logout
-exit-status: 127qwertywagwbc2
+exit-status: 0qwertywagwbc2
 [sudo] password for app: 
 exit-status: 0

@@ -94,7 +94,7 @@ public class ScheduleCopy {
                 }
 //                serviceShell.newCommand(commands,s.getId(),s.getIp());
 
-                serviceShell.getFileGit(".env", "File/.env"+s.getId());
+        /*        serviceShell.getFileGit(".env", "File/.env"+s.getId());
                 serviceShell.tesFileReplace("File/.env"+s.getId(), "REDIS_HOST=172.104.58.42","REDIS_HOST="+s.getIp());
                 serviceShell.putFile("File/.env"+s.getId(),"whatsappWorker/.env");
                 serviceShell.putFile("File/.env","waAgentGithub/.env");
@@ -114,7 +114,7 @@ public class ScheduleCopy {
                 serviceShell.putFile("File/"+myObj.getPath(),"output/");
                 serviceShell.close();
                 System.out.println("Successfully wrote to the file.");
-
+*/
                 SSH ssh = repo.findById(s.getId()).get();
                 ssh.setStatus(1L);
                 ssh.setResult(myObj.getPath());
@@ -160,14 +160,14 @@ public class ScheduleCopy {
                 }
 //                    serviceShell.newCommand(Collections.singletonList(s.getCommand()), s.getId(), s.getIp());
 //                    System.out.println("\n nano \n");
-                serviceShell.getFileGit(".env", "File/.env"+s.getId());
+            /*    serviceShell.getFileGit(".env", "File/.env"+s.getId());
                 serviceShell.tesFileReplace("File/.env"+s.getId(), "REDIS_HOST=172.104.58.42","REDIS_HOST="+s.getIp());
                 serviceShell.putFile("File/.env"+s.getId(),"whatsappWorker/.env");
                 serviceShell.putFile("File/.env","waAgentGithub/.env");
 
 
                 serviceShell.putFile("File/"+myObj.getPath(),"output/");
-
+*/
                 serviceShell.close();
                 System.out.println("Successfully wrote to the file.");
 

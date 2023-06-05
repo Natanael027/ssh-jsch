@@ -1,91 +1,40 @@
+mkdir tes
+ cd ./tes
+ touch cmd.txt
+ ls -ltr
+ touch cmd2.txt
+ ls -ltr
+ rm cmd2.txt
+ ls -ltr
+ cat tes.txt
 
-#!/bin/bash
-ssh pi@192.168.1.191
+
 pwd
 exit
-app@workerdev:~$ #!/bin/bash
-app@workerdev:~$ ssh pi@192.168.1.191
-pi@192.168.1.191's password: 
-Linux raspberrypi 5.15.84-v7l+ #1613 SMP Thu Jan 5 12:01:26 GMT 2023 armv7l
-
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
-
-Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
-permitted by applicable law.
-Last login: Tue Feb 28 15:44:51 2023 from 192.168.1.244
-
-SSH is enabled and the default password for the 'pi' user has not been changed.
-This is a security risk - please login as the 'pi' user and type 'passwd' to set a new password.
-
-[?2004hpi@raspberrypi:~$ #!/bin/bash
-[?2004l[?2004hpi@raspberrypi:~$ 
-[?2004l[?2004hpi@raspberrypi:~$ mkdir tes
-[?2004lmkdir: cannot create directory ‘tes’: File exists
-[?2004hpi@raspberrypi:~$ 
-[?2004l[?2004hpi@raspberrypi:~$  cd ./tes
-[?2004l[?2004hpi@raspberrypi:~/tes$ 
-[?2004l[?2004hpi@raspberrypi:~/tes$  touch cmd.txt
-[?2004l[?2004hpi@raspberrypi:~/tes$ 
-[?2004l[?2004hpi@raspberrypi:~/tes$  ls -ltr
-[?2004ltotal 0
--rw-r--r-- 1 pi pi 0 Feb 28 16:15 cmd.txt
-[?2004hpi@raspberrypi:~/tes$ 
-[?2004l[?2004hpi@raspberrypi:~/tes$  touch cmd2.txt
-[?2004l[?2004hpi@raspberrypi:~/tes$ 
-[?2004l[?2004hpi@raspberrypi:~/tes$  ls -ltr
-[?2004ltotal 0
--rw-r--r-- 1 pi pi 0 Feb 28 16:15 cmd.txt
--rw-r--r-- 1 pi pi 0 Feb 28 16:15 cmd2.txt
-[?2004hpi@raspberrypi:~/tes$ 
-[?2004l[?2004hpi@raspberrypi:~/tes$  rm cmd2.txt
-[?2004l[?2004hpi@raspberrypi:~/tes$ 
-[?2004l[?2004hpi@raspberrypi:~/tes$  ls -ltr
-[?2004ltotal 0
--rw-r--r-- 1 pi pi 0 Feb 28 16:15 cmd.txt
-[?2004hpi@raspberrypi:~/tes$ 
-[?2004l[?2004hpi@raspberrypi:~/tes$  cat tes.txt
-[?2004lcat: tes.txt: No such file or directory
-[?2004hpi@raspberrypi:~/tes$ 
-[?2004l[?2004hpi@raspberrypi:~/tes$ 
-[?2004l[?2004hpi@raspberrypi:~/tes$ 
-[?2004l[?2004hpi@raspberrypi:~/tes$ exit
-[?2004llogout
-Connection to 192.168.1.191 closed.
-app@workerdev:~$ #!/bin/bash
-app@workerdev:~$ 
 app@workerdev:~$ mkdir tes
 mkdir: cannot create directory ‘tes’: File exists
-app@workerdev:~$ 
 app@workerdev:~$  cd ./tes
-app@workerdev:~/tes$ 
 app@workerdev:~/tes$  touch cmd.txt
-app@workerdev:~/tes$ 
 app@workerdev:~/tes$  ls -ltr
 total 0
--rw-rw-r-- 1 app app 0 Feb 28 16:15 cmd.txt
-app@workerdev:~/tes$ 
+-rw-rw-r-- 1 app app 0 Mar 27 09:52 cmd.txt
 app@workerdev:~/tes$  touch cmd2.txt
-app@workerdev:~/tes$ 
 app@workerdev:~/tes$  ls -ltr
 total 0
--rw-rw-r-- 1 app app 0 Feb 28 16:15 cmd.txt
--rw-rw-r-- 1 app app 0 Feb 28 16:15 cmd2.txt
-app@workerdev:~/tes$ 
+-rw-rw-r-- 1 app app 0 Mar 27 09:52 cmd.txt
+-rw-rw-r-- 1 app app 0 Mar 27 09:52 cmd2.txt
 app@workerdev:~/tes$  rm cmd2.txt
-app@workerdev:~/tes$ 
 app@workerdev:~/tes$  ls -ltr
 total 0
--rw-rw-r-- 1 app app 0 Feb 28 16:15 cmd.txt
-app@workerdev:~/tes$ 
+-rw-rw-r-- 1 app app 0 Mar 27 09:52 cmd.txt
 app@workerdev:~/tes$  cat tes.txt
 cat: tes.txt: No such file or directory
 app@workerdev:~/tes$ 
 app@workerdev:~/tes$ 
-app@workerdev:~/tes$ 
+app@workerdev:~/tes$ pwd
+/home/app/tes
 app@workerdev:~/tes$ exit
 logout
-exit-status: 1qwertywagwbc2
+exit-status: 0qwertywagwbc2
 [sudo] password for app: 
 exit-status: 0

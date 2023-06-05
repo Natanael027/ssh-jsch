@@ -12,12 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StopWatch;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -82,9 +87,15 @@ public class ServiceCommand {
             Channel channel = shell.getChannel();
             Channel channelSudo = shell.getSession().openChannel("exec");
 
+            //measuring elapsed time using Spring StopWatch
+            StopWatch watch = new StopWatch();
+            watch.start();
+//            watch.
+            watch.stop();
+
             shell.newCommand(commands,s.getId(),s.getIp(), channel);
 
-            shell.getFileGit(".env", "File/.env"+s.getId());
+            shell.getFileGit(".env", "File/Ref/.env"+s.getId());
             shell.tesFileReplace("File/.env"+s.getId(), "REDIS_HOST=172.104.58.42","REDIS_HOST="+s.getIp());
             shell.putFile("File/.env"+s.getId(),"whatsappWorker/.env");
             shell.putFile("File/.env","waAgentGithub/.env");
@@ -93,7 +104,7 @@ public class ServiceCommand {
             Path ori =  Paths.get("File/event.conf");
             Files.copy(ori.toFile(), copied);
 
-//                shell.getFileGit("/etc/nginx/sites-enabled/event.conf", "File/event.conf_"+s.getId());
+//          shell.getFileGit("/etc/nginx/sites-enabled/event.conf", "File/event.conf_"+s.getId());
             shell.tesFileReplace("File/event.conf"+s.getId(), "server_name 103.173.75.66","server_name "+s.getIp());
             shell.putFile("File/event.conf"+s.getId(),"/home/app/event.conf");
             shell.sudoCommandFile(s.getId());
@@ -118,6 +129,59 @@ public class ServiceCommand {
 //                Thread.sleep(3000);
         return CompletableFuture.completedFuture("ended");
         }
+
+    @Async
+    public CompletableFuture<String> schedulerHari2Forwarding(SSH s, ServiceShell shell) throws JSchException, InterruptedException, IOException {
+        File myObj = new File("filename_"+s.getId()+".txt");
+        log.info("ID >>"+String.valueOf(s.getId()));
+        List<String> commands = new ArrayList<>();
+        List<String> sudoCommands = new ArrayList<>();
+        String[] split = s.getCommand().split(";");
+        for (String q : split) {
+            if (q.startsWith(" sudo")) {
+                sudoCommands.add(q);
+            } else {
+                commands.add(q);
+            }
+        }
+        Channel channel = shell.getChannelForwarding();
+        Channel channelSudo = shell.getSession2().openChannel("exec");
+        shell.newCommand(commands,s.getId(),s.getIp(), channel);
+
+        shell.getFileGit(".env", "File/.env"+s.getId());
+        shell.tesFileReplace("File/.env"+s.getId(), "REDIS_HOST=172.104.58.42","REDIS_HOST="+s.getIp());
+        shell.putFile("File/.env"+s.getId(),"whatsappWorker/.env");
+        shell.putFile("File/.env","waAgentGithub/.env");
+
+        File copied = new File("File/event.conf"+s.getId());
+        Path ori =  Paths.get("File/event.conf");
+        Files.copy(ori.toFile(), copied);
+
+//           shell.getFileGit("/etc/nginx/sites-enabled/event.conf", "File/event.conf_"+s.getId());
+        shell.tesFileReplace("File/event.conf"+s.getId(), "server_name 103.173.75.66","server_name "+s.getIp());
+        shell.putFile("File/event.conf"+s.getId(),"/home/app/event.conf");
+        shell.sudoCommandFile(s.getId());
+        System.out.println("sudoCommand :: "+sudoCommands.toString());
+        String sudoCommand = String.join(";", sudoCommands);
+
+        log.info(sudoCommand);
+        if (!sudoCommands.isEmpty()){
+            shell.sudoCommand(sudoCommand,s.getId(),channelSudo);
+        }
+
+        shell.putFile("File/"+myObj.getPath(),"output/");
+        shell.close();
+        log.info("Successfully wrote to the file.");
+
+        SSH ssh = repo.findById(s.getId()).get();
+        ssh.setStatus(1L);
+        ssh.setResult(myObj.getPath());
+        repo.save(ssh);
+//                configuration.stopClient();
+        log.info("end");
+//                Thread.sleep(3000);
+    return CompletableFuture.completedFuture("ended");
+    }
 
 //    @Async
     public CompletableFuture<String> onProgress(){
