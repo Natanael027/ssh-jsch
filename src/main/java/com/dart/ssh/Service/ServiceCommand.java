@@ -10,7 +10,6 @@ import com.jcraft.jsch.JSchException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
@@ -18,11 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -33,8 +28,6 @@ public class ServiceCommand {
     private SshRepository repo;
     @Autowired
     SSHClientConfiguration configuration;
-//    @Autowired
-//    ServiceShell serviceShell;
 
     public List<SSH> testFind(Long id1, Long id2, Long id3){
         List<SSH> tes = repo.findStatus0(id1,id2,id3);
@@ -55,8 +48,6 @@ public class ServiceCommand {
             shell.setPort(Integer.valueOf(s.getPort()));
 
             command = schedulerHari2(s,shell);
-//            command = Done();
-//              serviceCommand.schedulerHari2(s,shell);
             log.info("Finished");
         } else if (s.getStatus()==1) {
             log.info("On Progress");
