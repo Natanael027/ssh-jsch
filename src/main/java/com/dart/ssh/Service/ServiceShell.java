@@ -198,7 +198,7 @@ public class ServiceShell {
             FileWriter myWriter = new FileWriter("File/filename_"+id+".txt", true);
             System.out.println("sudo event.conf command ");
 //            ((ChannelExec) channel).setCommand("sudo -S -p ''" + "");
-            ((ChannelExec) channel).setCommand("sudo -S -p '' mv event.conf /etc/nginx/sites-enabled/");
+//            ((ChannelExec) channel).setCommand("sudo -S -p '' mv event.conf /etc/nginx/sites-enabled/");
             channel.setInputStream(null);
             OutputStream out = channel.getOutputStream();
             ((ChannelExec) channel).setErrStream(System.err);
@@ -412,27 +412,18 @@ public class ServiceShell {
   }
     @Async
   public String newCommand(List<String> commands, Long id, String IP, Channel channel) throws IOException {
-//        Channel channel=getChannel();
-
         FileWriter myWriter = new FileWriter("File/filename_"+id+".txt");
-        String localDir = "File/.env"+id;
         System.out.println("tostring "+commands.toString());
-        System.out.println("size "+commands.size());
+//        System.out.println("size "+commands.size());
         try{
-//            PrintStream out = new PrintStream(channel.getOutputStream());
             OutputStream out = channel.getOutputStream();
-
-            /*
-                testing
-            out.write(("#!/bin/bash" + "\n").getBytes());
-            out.write(("ssh pi@192.168.1.191" + "\n").getBytes());
-            */
-
             for(String command : commands){
-                out.write((command + "\n").getBytes());
-            }
+                if (command.contains("sudo")){
 
-//            out.write(("pwd" + "\n").getBytes());
+                }else {
+                    out.write((command + "\n").getBytes());
+                }
+            }
             out.write(("exit"+ "\n").getBytes());
             out.flush();
         }catch(Exception e){
@@ -442,7 +433,6 @@ public class ServiceShell {
             OutputStream out = channel.getOutputStream();
             byte[] buffer = new byte[1024];
             InputStream in = channel.getInputStream();
-//                String line = "";
             while (true){
                 while (in.available() > 0) {
                     int i = in.read(buffer, 0, 1024);
@@ -453,30 +443,15 @@ public class ServiceShell {
                     finalResult = line;
                     //off
                     log.info(line);
-/*
-                    //Testing
-                    if (finalResult.contains("password:")){
-                        out.write(("raspberry" + "\n").getBytes());
-                        out.flush();
-                    }else if (finalResult.contains("pi@raspberrypi:~$")){
-                        sendCommandsori(channel, commands);
-
-//						out.write(("ls -ltr" + "\n").getBytes());
-//						out.flush();
-                    }
-*/
 
                     if (line.equalsIgnoreCase("\u001B")){
                         myWriter.write("");
                     }else {
                         myWriter.write(line);
                     }
-//                        return line;
                     Thread.sleep(500);
                 }
-//                    if(line.contains("logout")){
-//                        break;
-//                    }
+
                 if (channel.isClosed()){
                     System.out.println("exit-status: "+channel.getExitStatus());
                     myWriter.write("exit-status: "+channel.getExitStatus());

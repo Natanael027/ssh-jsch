@@ -1,3 +1,29 @@
+Welcome to Ubuntu 18.04.4 LTS (GNU/Linux 4.15.0-212-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Fri Jul 14 14:35:09 WIB 2023
+
+  System load:  0.0                Processes:             130
+  Usage of /:   2.0% of 457.38GB   Users logged in:       1
+  Memory usage: 7%                 IP address for enp3s0: 192.168.1.244
+  Swap usage:   0%
+
+
+ * Canonical Livepatch is available for installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+91 packages can be updated.
+1 update is a security update.
+
+New release '20.04.6 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+Last login: Fri Jul 14 14:17:37 2023 from 192.168.1.95
 mkdir tes
  cd ./tes
  touch cmd.txt
@@ -7,34 +33,32 @@ mkdir tes
  rm cmd2.txt
  ls -ltr
  cat tes.txt
+ cd ../
+ rm -r tes
+ sudo ls -l
 
 
-pwd
 exit
 app@workerdev:~$ mkdir tes
-mkdir: cannot create directory ‘tes’: File exists
 app@workerdev:~$  cd ./tes
 app@workerdev:~/tes$  touch cmd.txt
 app@workerdev:~/tes$  ls -ltr
 total 0
--rw-rw-r-- 1 app app 0 Mar 27 09:52 cmd.txt
+-rw-rw-r-- 1 app app 0 Jul 14 14:35 cmd.txt
 app@workerdev:~/tes$  touch cmd2.txt
 app@workerdev:~/tes$  ls -ltr
 total 0
--rw-rw-r-- 1 app app 0 Mar 27 09:52 cmd.txt
--rw-rw-r-- 1 app app 0 Mar 27 09:52 cmd2.txt
+-rw-rw-r-- 1 app app 0 Jul 14 14:35 cmd.txt
+-rw-rw-r-- 1 app app 0 Jul 14 14:35 cmd2.txt
 app@workerdev:~/tes$  rm cmd2.txt
 app@workerdev:~/tes$  ls -ltr
 total 0
--rw-rw-r-- 1 app app 0 Mar 27 09:52 cmd.txt
+-rw-rw-r-- 1 app app 0 Jul 14 14:35 cmd.txt
 app@workerdev:~/tes$  cat tes.txt
 cat: tes.txt: No such file or directory
-app@workerdev:~/tes$ 
-app@workerdev:~/tes$ 
-app@workerdev:~/tes$ pwd
-/home/app/tes
-app@workerdev:~/tes$ exit
-logout
-exit-status: 0qwertywagwbc2
+app@workerdev:~/tes$  cd ../
+app@workerdev:~$  rm -r tes
+app@workerdev:~$  sudo ls -l
 [sudo] password for app: 
-exit-status: 0
+Sorry, try again.
+[sudo] password for app: exit-status: -1
